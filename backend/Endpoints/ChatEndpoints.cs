@@ -58,7 +58,6 @@ public static class ChatEndpoints
             {
                 var config = new GenerateContentConfig();
 
-                // Explicitly construct the Content object and add a string Part to its Parts collection
                 config.SystemInstruction = new Content
                 {
                     Parts = new List<Part> 
@@ -86,16 +85,12 @@ public static class ChatEndpoints
                 config.MaxOutputTokens = 300;
                 config.Temperature = 0.7;
 
-                // Request text generation via Gemini 1.5 Flash
-                // Request text generation via Gemini 1.5 Flash using the official SDK model string definition
-               // Request text generation via Gemini 2.5 Flash using the updated production string identifier
                 var aiResponse = await aiClient.Models.GenerateContentAsync(
                     model: "gemini-2.5-flash",
                     contents: userInput,
                     config: config
                 );
 
-                // Safely extract text contents out of response object candidates
                 string responseText = aiResponse.Text ?? "I couldn't generate a clear response right now.";
 
                 return Results.Ok(new ChatResponse 
@@ -113,6 +108,7 @@ public static class ChatEndpoints
                     Text = "Oops! My neural links are a bit busy right now. However, you can still use `/projects` or `/hobbies` directly!" 
                 });
             }
-        });
+        })
+        .RequireCors("AllowFrontend"); // 🟢 THIS RIGHT HERE COMPELS THE ENDPOINT TO SEND CORS HEADERS FOR PREFLIGHT
     }
 }
