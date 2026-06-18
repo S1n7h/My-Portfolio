@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:5173", 
-                "https://your-portfolio-frontend.vercel.app" // <-- REPLACE THIS WITH YOUR ACTUAL VERCEL URL
+                "https://protfolio-backend-jku3.onrender.com" 
               ) 
               .AllowAnyHeader()
               .AllowAnyMethod();
