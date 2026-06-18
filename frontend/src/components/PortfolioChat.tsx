@@ -56,8 +56,8 @@ export default function PortfolioChat() {
   };
 
   return (
-    <div className="flex flex-col h-[600px] w-full max-w-2xl border border-gray-700 bg-gray-900 rounded-lg shadow-xl overflow-hidden text-white mx-auto mt-10 font-mono">
-      {/* Chat Window */}
+    <div className="flex flex-col h-[600px] w-full max-w-2xl border-2 border-gray-700 bg-gray-900 rounded-lg shadow-xl overflow-hidden text-white mx-auto mt-10 font-mono">
+      {/* Single unified terminal box containing all prompts and messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 text-left align-text-top">
         {messages.map((msg) => (
           /* Force left-alignment for all message rows */
@@ -113,12 +113,12 @@ export default function PortfolioChat() {
         {loading && <div className="text-xs text-gray-500 animate-pulse pl-1 text-left">AI is typing...</div>}
       </div>
 
-      {/* Input Form */}
-      <form onSubmit={sendMessage} className="p-3 bg-gray-800 border-t border-gray-700 flex gap-2">
+      {/* Input Form - kept inside the same box as the messages */}
+      <form onSubmit={sendMessage} className="p-3 bg-gray-900 border-t border-gray-700 flex gap-2">
         <span className="text-sm font-bold text-blue-400 self-center font-mono">visitor:~$</span>
         <input
           type="text"
-          className="flex-1 bg-gray-900 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+          className="flex-1 bg-gray-800 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
           placeholder="Type a message or `/projects`..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
