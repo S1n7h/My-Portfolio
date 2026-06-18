@@ -3,12 +3,15 @@ using Google.GenAI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Enable CORS for your React Frontend
+// 1. Enable CORS for BOTH your local environment and live Vercel Frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") 
+        policy.WithOrigins(
+                "http://localhost:5173", 
+                "https://your-portfolio-frontend.vercel.app" // <-- REPLACE THIS WITH YOUR ACTUAL VERCEL URL
+              ) 
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -23,6 +26,8 @@ builder.Services.AddSingleton(sp =>
 var app = builder.Build();
 
 app.UseCors("AllowFrontend");
+// NOTE: You can temporarily comment out app.UseHttpsRedirection() if Render's internal HTTP routing gives you trouble, 
+// but since Render handles SSL termination at their proxy, keeping it should be fine.
 app.UseHttpsRedirection();
 
 app.MapChatEndpoints();
