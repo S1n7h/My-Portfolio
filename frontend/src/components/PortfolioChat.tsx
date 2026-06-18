@@ -56,7 +56,7 @@ export default function PortfolioChat() {
   };
 
   return (
-    <div className="flex flex-col h-[600px] w-full max-w-2xl border-2 border-gray-700 bg-gray-900 rounded-lg shadow-xl overflow-hidden text-white mx-auto mt-10 font-mono">
+    <div className="flex flex-col h-[600px] w-full max-w-2xl border-2 border-blue-500 ring-1 ring-blue-500/40 bg-gray-900 rounded-lg shadow-xl shadow-blue-500/20 overflow-hidden text-white mx-auto mt-10 font-mono">
       {/* Single unified terminal box containing all prompts and messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 text-left align-text-top">
         {messages.map((msg) => (
