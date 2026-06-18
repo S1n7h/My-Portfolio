@@ -28,7 +28,7 @@ var app = builder.Build();
 app.UseCors("AllowFrontend");
 // NOTE: You can temporarily comment out app.UseHttpsRedirection() if Render's internal HTTP routing gives you trouble, 
 // but since Render handles SSL termination at their proxy, keeping it should be fine.
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.MapChatEndpoints();
 
