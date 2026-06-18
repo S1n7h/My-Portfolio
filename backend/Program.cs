@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:5173", 
-                "https://my-portfolio-sigma-sandy-88.vercel.app/" 
+                "https://my-portfolio-sigma-sandy-88.vercel.app" 
               ) 
               .AllowAnyHeader()
               .AllowAnyMethod();
