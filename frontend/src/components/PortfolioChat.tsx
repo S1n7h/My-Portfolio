@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface ProjectItem {
@@ -22,6 +22,13 @@ export default function PortfolioChat() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  // Auto-scroll feed behavior matched from the previous UI layout
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, loading]);
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,74 +63,80 @@ export default function PortfolioChat() {
   };
 
   return (
-    <div className="flex flex-col h-[600px] w-full max-w-2xl border border-gray-700 bg-gray-900 rounded-lg shadow-xl overflow-hidden text-white mx-auto mt-10 font-mono">
-      {/* Chat Window */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 text-left align-text-top">
+    /* Outer container layout copied exactly from previous project */
+    <div style={{ border: '1px solid #444444', padding: '20px', maxWidth: '1000px', margin: '40px auto', background: '#121212', color: '#fff', fontFamily: 'monospace', borderRadius: '8px' }}>
+      <h2 style={{ margin: '0 0 10px 0' }}>Portfolio Terminal</h2>
+      <hr style={{ borderColor: '#444', margin: '0 0 20px 0' }} />
+      
+      {/* Chat Feed Box container match from previous UI styling */}
+      <div style={{ border: '1px solid #444444', height: '300px', overflowY: 'scroll', padding: '10px', margin: '20px 0', borderRadius: '6px', background: '#1a1a1a' }}>
         {messages.map((msg) => (
-          /* Force left-alignment for all message rows */
-          <div key={msg.id} className="flex items-start justify-start w-full border-b border-gray-800/40 pb-2">
-            
-            {/* Terminal prefix identifier */}
-            <span className={`text-sm font-bold mr-2 shrink-0 ${msg.sender === 'user' ? 'text-blue-400' : 'text-green-400'}`}>
-              {msg.sender === 'user' ? 'visitor:~$' : 'gemini:~$'}
-            </span>
-
-            <div className="flex-1 text-left">
-              {/* Resetting prose layout styles to ensure it respects absolute left alignment */}
-              <div className="prose prose-invert text-sm max-w-none text-left [&>*]:text-left">
+          <div 
+            key={msg.id} 
+            style={{ display: 'flex', flexDirection: 'column', background: '#222', padding: '8px', margin: '8px 0', borderRadius: '4px', textAlign: 'left' }}
+          >
+            {/* Plain content layout — no individual user titles or hovering dependencies */}
+            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+              <strong style={{ color: msg.sender === 'user' ? '#61afef' : '#98c379', marginRight: '8px', flexShrink: 0 }}>
+                {msg.sender === 'user' ? 'visitor:~$' : 'gemini:~$'}
+              </strong>
+              <div style={{ fontSize: '14px', lineHeight: '1.4' }}>
                 <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
-
-              {/* Render Interactive Projects */}
-              {msg.type === 'project-list' && msg.data && (
-                <div className="grid grid-cols-1 gap-3 mt-3 max-w-xl text-left">
-                  {(msg.data as ProjectItem[]).map((proj, idx) => (
-                    <div key={idx} className="p-3 bg-gray-800 rounded-md border border-gray-700 shadow-sm text-left">
-                      <h4 className="font-bold text-base text-blue-400 text-left">{proj.title}</h4>
-                      <p className="text-xs text-gray-300 mt-1 text-left">{proj.description}</p>
-                      <div className="text-xs text-gray-400 mt-1 text-left">
-                        <strong>Technologies:</strong> {proj.programmingLanguagesUsed}
-                      </div>
-                      <div className="mt-2 flex space-x-2 justify-start">
-                        {proj.githubUrl && (
-                          <a href={proj.githubUrl} target="_blank" rel="noreferrer" className="text-xs bg-gray-700 px-2 py-1 rounded hover:bg-gray-600 transition">
-                            GitHub
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Render Interactive Hobbies */}
-              {msg.type === 'hobby-grid' && msg.data && (
-                <div className="flex flex-wrap gap-2 mt-3 justify-start">
-                  {(msg.data as string[]).map((hobby, idx) => (
-                    <span key={idx} className="bg-purple-900/50 text-purple-200 border border-purple-700 text-xs px-3 py-1 rounded font-medium">
-                      {hobby}
-                    </span>
-                  ))}
-                </div>
-              )}
-
             </div>
+
+            {/* Interactive Project Lists Render Block */}
+            {msg.type === 'project-list' && msg.data && (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px', marginTop: '12px', maxWidth: '600px' }}>
+                {(msg.data as ProjectItem[]).map((proj, idx) => (
+                  <div key={idx} style={{ padding: '12px', background: '#2c2c2c', borderRadius: '6px', border: '1px solid #444' }}>
+                    <h4 style={{ margin: '0 0 4px 0', color: '#61afef', fontSize: '16px' }}>{proj.title}</h4>
+                    <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#ccc' }}>{proj.description}</p>
+                    <div style={{ fontSize: '12px', color: '#aaa' }}>
+                      <strong>Technologies:</strong> {proj.programmingLanguagesUsed}
+                    </div>
+                    {proj.githubUrl && (
+                      <div style={{ marginTop: '8px' }}>
+                        <a href={proj.githubUrl} target="_blank" rel="noreferrer" style={{ display: 'inline-block', fontSize: '12px', background: '#444', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none' }}>
+                          GitHub
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Interactive Hobby Tag Grid Render Block */}
+            {msg.type === 'hobby-grid' && msg.data && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '12px' }}>
+                {(msg.data as string[]).map((hobby, idx) => (
+                  <span key={idx} style={{ background: 'rgba(110, 68, 255, 0.2)', color: '#d4bfff', border: '1px solid #6e44ff', fontSize: '12px', padding: '4px 10px', borderRadius: '4px' }}>
+                    {hobby}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         ))}
-        {loading && <div className="text-xs text-gray-500 animate-pulse pl-1 text-left">AI is typing...</div>}
+        {loading && <div style={{ fontSize: '12px', color: '#666', paddingLeft: '4px' }}>AI is typing...</div>}
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Form */}
-      <form onSubmit={sendMessage} className="p-3 bg-gray-800 border-t border-gray-700 flex gap-2">
-        <span className="text-sm font-bold text-blue-400 self-center font-mono">visitor:~$</span>
-        <input
-          type="text"
-          className="flex-1 bg-gray-900 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-          placeholder="Type a message or `/projects`..."
+      {/* Action Prompt layout matched to previous layout structure */}
+      <form onSubmit={sendMessage} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#61afef' }}>visitor:~$</span>
+        <input 
+          type="text" 
+          placeholder="Type a message or `/projects`..." 
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          style={{ flexGrow: 1, padding: '10px', borderRadius: '4px', border: '1px solid #555', background: '#111', color: '#fff', fontFamily: 'monospace' }}
         />
-        <button type="submit" className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm font-medium transition font-mono">
+        <button 
+          type="submit"
+          style={{ background: '#5b48c9', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontFamily: 'monospace' }}
+        >
           Execute
         </button>
       </form>
