@@ -1,0 +1,14 @@
+# Node/React dependencies
+node_modules/
+dist/
+build/
+
+# .NET build outputs & local secrets
+bin/
+obj/
+appsettings.Development.json
+*.user
+
+# Environments and keys
+.env
+.env.local
