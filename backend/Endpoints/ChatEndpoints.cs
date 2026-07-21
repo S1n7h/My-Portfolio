@@ -26,7 +26,7 @@ public static class ChatEndpoints
                             Description = "A game built using Unity where you try to avoid the Asteroids using your mouse and click inputs.", 
                             ProgrammingLanguagesUsed = "C#, Unity", 
                             GithubUrl = "https://github.com/S1n7h/Asteroids",                            
-                            GameUrl = "/games/Asteroids Web/index.html"
+                            GameUrl = "/games/Asteroids-Web/index.html"
                         },
                         new() { 
                             Title = "Tower Defense", 
