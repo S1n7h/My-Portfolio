@@ -25,13 +25,14 @@ public static class ChatEndpoints
                             Title = "Asteroids", 
                             Description = "A game built using Unity where you try to avoid the Asteroids using your mouse and click inputs.", 
                             ProgrammingLanguagesUsed = "C#, Unity", 
-                            GithubUrl = "https://github.com/S1n7h/Asteroids" 
+                            GithubUrl = "https://github.com/S1n7h/Asteroids",                            
+                            GameUrl = "/games/Asteroids Web/index.html"
                         },
                         new() { 
                             Title = "Tower Defense", 
                             Description = "The Duck kingdom has launched an attack against your empire. Defend!", 
                             ProgrammingLanguagesUsed = "C#, Aseprite, Unity", 
-                            GithubUrl = "https://github.com/S1n7h/Tower-Defense-Game-Using-Unity" 
+                            GithubUrl = "https://github.com/S1n7h/Tower-Defense-Game-Using-Unity",
                         },
                         new() { 
                             Title = "Vikcord", 

@@ -6,6 +6,7 @@ interface ProjectItem {
   description: string;
   programmingLanguagesUsed: string;
   githubUrl?: string;
+  gameUrl?: string
 }
 
 interface Message {
@@ -17,8 +18,9 @@ interface Message {
 }
 
 export default function PortfolioChat() {
+  const [activeGameUrl, setActiveGameUrl] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', sender: 'ai', type: 'text', text: 'Hi! Type `/projects` to see what I have built, or just ask me anything!' }
+    { id: '1', sender: 'ai', type: 'text', text: 'Hi! Type `/projects` or `/hobbies` to see what I have built or my hobbies respectively, or just ask me anything!' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -102,6 +104,12 @@ export default function PortfolioChat() {
                         </a>
                       </div>
                     )}
+                    {proj.gameUrl && (
+                      <div style={{ marginTop: '8px' }}>
+                        <button onClick={() => setActiveGameUrl(proj.gameUrl!)} style={{ display: 'inline-block', fontSize: '12px', background: '#444', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none' }}>
+                          Play Game</button>
+                      </div>
+                    )}                    
                   </div>
                 ))}
               </div>
@@ -140,6 +148,24 @@ export default function PortfolioChat() {
           Execute
         </button>
       </form>
+
+      {/* WebGL Game Modal Overlay */}
+      {activeGameUrl && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <button 
+            onClick={() => setActiveGameUrl(null)} 
+            style={{ position: 'absolute', top: 20, right: 30, background: '#ff4d4d', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+          >
+            ✕ Exit Game
+          </button>
+          <iframe 
+            src={activeGameUrl} 
+            title="Unity WebGL Game" 
+            style={{ width: '80vw', height: '80vh', border: 'none', borderRadius: '8px', background: '#000' }} 
+            allow="fullscreen" 
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -20,4 +20,5 @@ public class ProjectDto
     public string ProgrammingLanguagesUsed { get; set; } = string.Empty;
     public string LiveUrl { get; set; } = string.Empty;
     public string GithubUrl { get; set; } = string.Empty;
+    public string GameUrl { get; set; } = string.Empty;
 }
